@@ -1,0 +1,50 @@
+[
+  {
+    "firstname": "Aisha",
+    "lastname": "Khan",
+    "totalprice": 210,
+    "depositpaid": true,
+    "bookingdates": { "checkin": "2026-11-02", "checkout": "2026-11-05" },
+    "additionalneeds": "Late checkout"
+  },
+  {
+    "firstname": "Omar",
+    "lastname": "Haddad",
+    "totalprice": 145,
+    "depositpaid": false,
+    "bookingdates": { "checkin": "2026-11-10", "checkout": "2026-11-12" },
+    "additionalneeds": "Ground floor"
+  },
+  {
+    "firstname": "Marta",
+    "lastname": "Nowak",
+    "totalprice": 320,
+    "depositpaid": true,
+    "bookingdates": { "checkin": "2026-12-01", "checkout": "2026-12-07" },
+    "additionalneeds": "Vegetarian breakfast"
+  },
+  {
+    "firstname": "Yusuf",
+    "lastname": "Ali",
+    "totalprice": 99,
+    "depositpaid": false,
+    "bookingdates": { "checkin": "2026-10-20", "checkout": "2026-10-21" },
+    "additionalneeds": "None"
+  },
+  {
+    "firstname": "Lena",
+    "lastname": "Fischer",
+    "totalprice": 410,
+    "depositpaid": true,
+    "bookingdates": { "checkin": "2026-12-18", "checkout": "2026-12-26" },
+    "additionalneeds": "Sea view"
+  },
+  {
+    "firstname": "Tariq",
+    "lastname": "Aziz",
+    "totalprice": 175,
+    "depositpaid": true,
+    "bookingdates": { "checkin": "2026-11-25", "checkout": "2026-11-28" },
+    "additionalneeds": "Early checkin"
+  }
+]

@@ -1,0 +1,67 @@
+
+# Local performance-testing environment for k6.
+#
+# Services:
+# - restful-booker: local API under test.
+# - prometheus: receives and stores k6 metrics.
+# - grafana: visualizes performance metrics.
+#
+# All published ports bind to 127.0.0.1 only.
+#
+# Start: docker compose up -d --build
+# Check API: curl.exe http://localhost:3001/ping
+# Prometheus: http://localhost:9090
+# Grafana: http://localhost:3000
+# Stop: docker compose down
+#
+# Grafana default login: admin / admin
+# Change the password when prompted on first login.
+#
+# Pinned versions (verified 2026-10-12, see README "Pinned versions"):
+# - restful-booker: upstream main @ 00461155995c8636866bf51dc444f63033da44fb
+#   (committed 2026-03-27, merge PR #48 nedb->lokijs)
+# - prometheus: prom/prometheus:v2.55.1@sha256:2659f4c2ebb718e7695cb9b25ffa7d6be64db013daba13e05c875451cf51b0d3
+# - grafana: grafana/grafana:11.6.16@sha256:d67af92050b8d93b393dc741864752a69c9da1ffa39c1bb9af49ad5d9e47d2c3
+
+services:
+  restful-booker:
+    build:
+      context: https://github.com/mwinteringham/restful-booker.git#00461155995c8636866bf51dc444f63033da44fb
+      dockerfile: Dockerfile
+    image: restful-booker:local
+    container_name: k6-lab-restful-booker
+    ports:
+      - "127.0.0.1:3001:3001"
+    restart: "no"
+
+  prometheus:
+    image: "prom/prometheus:v2.55.1@sha256:2659f4c2ebb718e7695cb9b25ffa7d6be64db013daba13e05c875451cf51b0d3"
+    container_name: k6-lab-prometheus
+    ports:
+      - "127.0.0.1:9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.enable-remote-write-receiver"
+    restart: unless-stopped
+
+  grafana:
+    image: "grafana/grafana:11.6.16@sha256:d67af92050b8d93b393dc741864752a69c9da1ffa39c1bb9af49ad5d9e47d2c3"
+    container_name: k6-lab-grafana
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+volumes:
+  prometheus_data:
+  grafana_data:

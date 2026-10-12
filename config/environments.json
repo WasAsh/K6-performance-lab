@@ -1,0 +1,10 @@
+{
+  "public": {
+    "baseUrl": "https://restful-booker.herokuapp.com",
+    "note": "Shared training host. Resets every ~10 min. Smoke + light load only."
+  },
+  "local": {
+    "baseUrl": "http://localhost:3001",
+    "note": "Self-hosted Booker via docker-compose (mwinteringham/restful-booker). Default for stress/spike/soak."
+  }
+}

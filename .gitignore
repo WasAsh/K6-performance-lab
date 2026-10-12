@@ -1,0 +1,8 @@
+# Local runtime artefacts (never commit results)
+reports/
+# Local env overrides (example is tracked, values are not)
+.env
+# Internal planning docs (kept locally, not published)
+Docs/
+# Agent working state (session checkpoints, never published)
+.omo/
