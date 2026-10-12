@@ -199,9 +199,35 @@ default console summary still prints; additionally each run writes three files
   `PASS — …` / `FAIL — …` / `UNKNOWN — …` banner.
 
 Filenames are per test type, so a new run of the same test overwrites only its
-own three files. Reference example (local smoke, green):
-`httpReqs 9`, `failedRate 0.00%`, `p95 76.89ms`, `avg 26.05ms`,
-`checkRate 100.00%`, all thresholds held.
+own three files. Verified figures from the local runs are collected in
+[Test results](#test-results) below.
+
+## Test results
+
+All five profiles passed their configured thresholds against the local
+Restful Booker API (`http://localhost:3001`, pinned Booker source
+`00461155…`, k6 v2.2.0), each run with `-o experimental-prometheus-rw`:
+
+| Profile | Duration | Peak VUs | Requests | Failed | p95 | Checks | Verdict |
+|---------|----------|----------|----------|--------|-----|--------|---------|
+| Smoke | ~9 s | 1 | 9 | 0 | 25.04 ms | 18/18 (100%) | PASS |
+| Load | ~2 min | 4 | 366 | 0 | 5.04 ms | 122/122 iterations, all 7 checks passed | PASS |
+| Stress | ~5 min | 20 | 2,970 | 0 | 5.63 ms | 990/990 iterations, all 7 checks passed | PASS |
+| Spike | ~1m40s | 20 | 1,020 | 0 | 4.10 ms | 510/510 iterations, all 4 checks passed | PASS |
+| Soak | 30 min | 3 | 5,364 | 0 | 9.05 ms | 1,788/1,788 iterations, all 7 checks passed | PASS |
+
+Notes:
+
+- These results were produced on this local machine (Windows + Docker
+  Desktop, loopback-only stack) and reflect this environment only — they are
+  not universal performance guarantees and must not be read as benchmarks of
+  the public demo API.
+- The remote-write output was attached for every run, but metric ingestion
+  into Prometheus and Grafana dashboard rendering were not validated —
+  `reports/` remains the source of truth for these runs.
+- Per-run detail (threshold expressions, per-check pass/fail counts, full
+  metrics) lives in the gitignored `reports/<type>-summary.{json,xml,html}`
+  files, which are regenerated on every run and must not be committed.
 
 ## Prometheus / Grafana
 
